@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet/issues"
   },
-  "homepage": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet#readme"
+  "homepage": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet#readme",
+  "devDependencies": {
+    "electron": "^3.0.9"
+  }
 }
