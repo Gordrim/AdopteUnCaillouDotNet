@@ -9,7 +9,7 @@ function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 })
 
   // et charge le index.html de l'application.
-  win.loadFile('index.html')
+  win.loadFile('vue/index.html')
 
   // Ouvre les DevTools.
   win.webContents.openDevTools()
