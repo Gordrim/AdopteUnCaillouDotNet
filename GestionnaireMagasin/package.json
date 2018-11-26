@@ -1,0 +1,29 @@
+{
+  "name": "adopte-un-caillou-dot-net",
+  "version": "0.1.0",
+  "description": "Adopte un caillou de compagnie",
+  "main": "src/app.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet.git"
+  },
+  "author": "Nolan Bublex, Cyrille Hamel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet/issues"
+  },
+  "homepage": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet#readme",
+  "devDependencies": {
+    "electron": "^3.0.9"
+  },
+  "dependencies": {
+    "nano": "^7.1.1"
+  }
+}
