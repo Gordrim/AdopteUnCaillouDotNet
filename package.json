@@ -22,5 +22,8 @@
   "homepage": "https://github.com/cegepmatane/projet-vente-achat-AdopteUnCaillouDotNet#readme",
   "devDependencies": {
     "electron": "^3.0.9"
+  },
+  "dependencies": {
+    "nano": "^7.1.1"
   }
 }
