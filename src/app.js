@@ -1,7 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 
-var produitDAO = require('./donnee/ProduitDAO');
-
 // Gardez une reference globale de l'objet window, si vous ne le faites pas, la fenetre sera
 // fermee automatiquement quand l'objet JavaScript sera garbage collected.
 let win
@@ -11,7 +9,7 @@ function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600 })
 
   // et charge le index.html de l'application.
-  win.loadFile('./src/vue/index.html')
+  win.loadFile('./src/vue/PageStatistique.html')
 
   // Ouvre les DevTools.
   win.webContents.openDevTools()

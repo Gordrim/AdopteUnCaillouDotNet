@@ -2,7 +2,7 @@
   "name": "adopte-un-caillou-dot-net",
   "version": "0.1.0",
   "description": "Adopte un caillou de compagnie",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "directories": {
     "doc": "doc"
   },
