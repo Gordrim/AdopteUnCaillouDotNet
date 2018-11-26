@@ -29,22 +29,30 @@ class ProduitDAO
     var resultat = await this.bdd.list({include_docs: true});
     resultat.rows.forEach((doc) =>
     {
-      var donneeProduit = doc.doc;
+      var donneesProduit = doc.doc;
       produits.push(new Produit
         (
-          donneeProduit.id,
-          donneeProduit.nom,
-          donneeProduit.prix,
-          donneeProduit.description,
-          donneeProduit.categorie
+          donneesProduit.id,
+          donneesProduit.nom,
+          donneesProduit.prix,
+          donneesProduit.description,
+          donneesProduit.categorie
         ))
     })
     return produits;
   }
 
-  getProduit(id)
+  async getProduit(id)
   {
-    return new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1)
+    var donneesProduit = await this.bdd.get(String(id));
+    return new Produit
+    (
+      donneesProduit.id,
+      donneesProduit.nom,
+      donneesProduit.prix,
+      donneesProduit.description,
+      donneesProduit.categorie
+    );
   }
 
   getProduitParCategorie(idCategorie)

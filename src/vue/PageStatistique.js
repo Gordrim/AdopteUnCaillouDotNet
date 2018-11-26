@@ -8,3 +8,7 @@ produitDAO.getProduits().then((produits) =>
 {
   console.log(produits);
 });
+produitDAO.getProduit(1).then((produit) =>
+{
+  console.log(produit);
+});
