@@ -2,12 +2,103 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>assistant d'achat</title>
+      <link rel="stylesheet" href="../css/bootstrap.min.css">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    Nous utilisons Node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    et Electron <script>document.write(process.versions.electron)</script>.
+      
+      <div id="liste-Categorie" class=" btn-group">    
+      </div>
+    
+      <div id="evolution-precessus-achat" class="progress">
+        <div id="progression-processus" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:15%">
+        </div>
+      </div>   
+      
+       <div id="zone-affichage">
+        </div>
+      
+      <script type="plain/text" id="page-produit">
+    	<h1 class="h1" id="produit-nom"></h1>
+    	<p class="mb-0" id="produit-description"></p>
+    </script>
+      
+      <script type="plain/text" id="page-liste-produit">
+    	<div class="page-liste-produit">
+	    	<h1>Liste des Produits</h1>
+	    	<ul id="liste-produit" class="list-group mb-3"></ul>
+    	</div>
+    </script>
+      
+    
+     <script type="plain/text" id="page-liste-Categorie">
+      </script>
+    <script type="plain/text" id="page-formulaire-info-client">
+     <h1>Renseigner vos info perso</h1>
+			<form id="formulaire-client">
+				
+				<legend>Identification du cadeau</legend>
+				<div>
+					<label  for="nom">Nom</label>
+					<input class="form-control" type="text" name="nom" id="nom"/>
+				</div>
+				<div>
+					<label for="prenom">Prenom</label>
+					<input class="form-control"  type="text" name="prenom" id="prenom"/>
+				</div>
+				
+                <div>
+					<label for="mail">adresse Mail </label>
+					<input class="form-control"  type="email" name="mail" id="mail"/>
+				</div>
+                
+                <div>
+					<label for="pays">Pays  </label>
+					<input class="form-control"  type="text" name="pays" id="pays"/>
+				</div>
+                
+                 <div>
+					<label for="ville">ville  </label>
+					<input class="form-control"  type="text" name="ville" id="ville"/>
+				</div>
+                
+                <div>
+					<label for="adresse">adresse  </label>
+					<input class="form-control"  type="text" name="adresse" id="adresse"/>
+				</div>
+                
+				<div>
+					<label for="cp">Code postal  </label>
+					<input class="form-control"  type="text" name="cp" id="cp"/>
+				</div>
+				
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
+			</form>
+    </script>
+      
+      <script type="plain/text" id="page-formulaire-acceptation-condition">
+     <h1>Condition general de vente  </h1>
+			<form id="formulaire-condition">
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="refuser" name="refuser" value="annuler transaction"/>
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="accepter"/>
+			</form>
+    </script>
+      
+     <script type="plain/text" id="page-formulaire-payement">
+     <h1>Reglement de l'achat </h1>
+			<form id="formulaire-payment">
+                
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="refuser" name="refuser" value="annuler transaction"/>
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
+			</form>
+    </script>
+      
+    <script type="plain/text" id="page-confirmation-achat">
+     <h1>confirmation de l'achat </h1>
+			
+    </script>
+    
+     <script src="ProgressionAchatVue.js"></script>
+    <script src="../controleur/navigationApplication.js"></script>
   </body>
 </html>
