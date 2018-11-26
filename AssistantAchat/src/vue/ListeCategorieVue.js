@@ -6,7 +6,7 @@ var ListeCategorieVue = (function()
     {
         this.afficher = function()
         {
-            document.getElementsByTagName("body")[0].innerHTML = pageListeCadeau;
+            document.getElementById("liste-Categorie").innerHTML = pageListeCategorie;
 
             var listeCadeau = document.getElementById("liste-Categorie");
 
@@ -18,7 +18,7 @@ var ListeCategorieVue = (function()
                 numeroCategorie +
                 '">' +
                 listeCategorieDonnee[numeroCategorie].nom+
-                '</a>;
+                '</a>';
                     
             }
             listeCadeau.innerHTML = li;

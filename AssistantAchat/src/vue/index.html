@@ -88,6 +88,11 @@
      <h1>Reglement de l'achat </h1>
 			<form id="formulaire-payment">
                 
+                <div>
+					<label for="carte">numero carte bancaire  </label>
+					<input class="form-control"  type="text" name="carte" id="carte"/>
+				</div>
+                
 				<input class="btn btn-primary btn-lg btn-block" type="submit" id="refuser" name="refuser" value="annuler transaction"/>
 				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
 			</form>
@@ -99,6 +104,11 @@
     </script>
     
      <script src="ProgressionAchatVue.js"></script>
+     <script src="ListeCategorieVue.js"></script>
+     <script src="ListeproduitVue.js"></script>
+     <script src="../modele/Categorie.js"></script>
+     <script src="../modele/Produit.js"></script>
+     <script src="../modele/Transaction.js"></script>
     <script src="../controleur/navigationApplication.js"></script>
   </body>
 </html>
