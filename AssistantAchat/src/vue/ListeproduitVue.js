@@ -1,12 +1,12 @@
 var ListeProduitVue = (function()
 {
-    var pageListeCadeau = document.getElementById("page-liste-produit").innerHTML;
+    var pageListeProduit = document.getElementById("page-liste-produit").innerHTML;
 
     return function(listeProduitDonnee)
     {
         this.afficher = function()
         {
-            document.getElementById("zone-affichage").innerHTML = pageListeCadeau;
+            document.getElementById("zone-affichage").innerHTML = pageListeProduit;
 
             var listeProduit= document.getElementById("liste-produit");
 

@@ -20,7 +20,12 @@
       
       <script type="plain/text" id="page-produit">
     	<h1 class="h1" id="produit-nom"></h1>
+    	<p class="mb-0" id="produit-prix"></p>
     	<p class="mb-0" id="produit-description"></p>
+        <a class="btn btn-secondary  btn-lg btn-block" id="retour-categorie" href="#">Retour</a>
+        <a class="btn btn-primary  btn-lg btn-block" id="produit-acheter" href="#">Acheter</a>
+       
+        
     </script>
       
       <script type="plain/text" id="page-liste-produit">
@@ -79,7 +84,7 @@
       <script type="plain/text" id="page-formulaire-acceptation-condition">
      <h1>Condition general de vente  </h1>
 			<form id="formulaire-condition">
-				<input class="btn btn-primary btn-lg btn-block" type="submit" id="refuser" name="refuser" value="annuler transaction"/>
+                <a class="btn btn-primary  btn-lg btn-block" id="condition-refuser" href="#">refuser condition</a>
 				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="accepter"/>
 			</form>
     </script>
@@ -106,6 +111,10 @@
      <script src="ProgressionAchatVue.js"></script>
      <script src="ListeCategorieVue.js"></script>
      <script src="ListeproduitVue.js"></script>
+     <script src="ProduitVue.js"></script>
+     <script src="InformationVue.js"></script>
+     <script src="ConditionVue.js"></script>
+     
      <script src="../modele/Categorie.js"></script>
      <script src="../modele/Produit.js"></script>
      <script src="../modele/Transaction.js"></script>
