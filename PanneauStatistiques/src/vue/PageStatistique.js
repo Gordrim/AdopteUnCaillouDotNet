@@ -9,9 +9,13 @@ async function afficherStatistiqueParProduit()
 {
   document.querySelector('#nombre-produit').innerHTML = "test";
 
+  await produitDAO.supprimerProduit(4);
+
   await produitDAO.ajouterProduit(new Produit(4,'La mousseuse', 465, 'ne se boit pas', 3));
 
   await produitDAO.modifierProduit(new Produit(4,'La mousseuse 2', 466, 'le retour', 3));
+
+  await produitDAO.supprimerProduit(1);
 
   await produitDAO.getProduits().then((produits) =>
   {

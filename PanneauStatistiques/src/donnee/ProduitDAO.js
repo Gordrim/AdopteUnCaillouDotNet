@@ -85,9 +85,10 @@ class ProduitDAO
     await this.bdd.insert(produit);
   }
 
-  async supprimerProduit(produit)
+  async supprimerProduit(id)
   {
-
+    var donneesProduit = await this.bdd.get(String(id));
+    await this.bdd.destroy(String(id), donneesProduit._rev);
   }
 
 }
