@@ -6,20 +6,19 @@ class ProduitDAO
 
   constructor()
   {
-    nano.db.create
-    (
-      'adopte_un_caillou_dot_net_produit',
-      function(err, body)
-      {
-        if (!err)
-        {
-          let bdd = nano.db.use('adopte_un_caillou_dot_net_produit');
-          bdd.insert(new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1),'1');
-          bdd.insert(new Produit(2, "le precieux", 9999, "attention aux hobbits", 1),'2');
-          bdd.insert(new Produit(404, "le doublon", 404, "ne serra pas inseré car même id", 404),'2');
-        }
-      }
-    );
+    this.bdd = null;
+  }
+
+  async init()
+  {
+    var ok = await nano.db.create('adopte_un_caillou_dot_net_produit').catch((err) => {});
+    if(ok)
+    {
+        let bdd = nano.db.use('adopte_un_caillou_dot_net_produit');
+        await bdd.insert(new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1),'1');
+        await bdd.insert(new Produit(2, "le precieux", 9999, "attention aux hobbits", 1),'2');
+        await bdd.insert(new Produit(3, 'The Rock', 8888, 'The Rock', 2), '3');
+    }
     this.bdd = nano.db.use('adopte_un_caillou_dot_net_produit');
   }
 
@@ -55,9 +54,22 @@ class ProduitDAO
     );
   }
 
-  getProduitParCategorie(idCategorie)
+  async getProduitParCategorie(categorie)
   {
-
+    var produits = [];
+    var resultat = await this.bdd.find({selector: {categorie: { "$eq": categorie}}});
+    resultat.docs.forEach((donneesProduit) =>
+    {
+      produits.push(new Produit
+        (
+          donneesProduit.id,
+          donneesProduit.nom,
+          donneesProduit.prix,
+          donneesProduit.description,
+          donneesProduit.categorie
+        ))
+    })
+    return produits;
   }
 
   ajouterProduit(produit)
