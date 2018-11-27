@@ -11,6 +11,8 @@ async function afficherStatistiqueParProduit()
 
   await produitDAO.ajouterProduit(new Produit(4,'La mousseuse', 465, 'ne se boit pas', 3));
 
+  await produitDAO.modifierProduit(new Produit(4,'La mousseuse 2', 466, 'le retour', 3));
+
   await produitDAO.getProduits().then((produits) =>
   {
     console.log(produits);

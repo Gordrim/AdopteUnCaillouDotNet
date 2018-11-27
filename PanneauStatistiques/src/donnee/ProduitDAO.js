@@ -74,15 +74,18 @@ class ProduitDAO
 
   async ajouterProduit(produit)
   {
-    await this.bdd.insert(produit, produit.id);
+    await this.bdd.insert(produit, String(produit.id));
   }
 
-  modifierProduit(produit)
+  async modifierProduit(produit)
   {
-
+    var donneesProduit = await this.bdd.get(String(produit.id));
+    produit._rev = donneesProduit._rev;
+    produit._id = String(produit.id);
+    await this.bdd.insert(produit);
   }
 
-  supprimerProduit(produit)
+  async supprimerProduit(produit)
   {
 
   }
