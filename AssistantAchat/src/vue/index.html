@@ -94,18 +94,32 @@
 			<form id="formulaire-payment">
                 
                 <div>
-					<label for="carte">numero carte bancaire  </label>
+					<label for="carte">Titulaire de la carte  </label>
+					<input class="form-control"  type="text" name="intituler" id="intituler"/>
+                </div>
+                <div>
+                    <label for="carte">numero carte bancaire  </label>
 					<input class="form-control"  type="text" name="carte" id="carte"/>
+                </div>
+                <div>
+                    <label for="cryptogram">Cryptograme de la carte bancaire  </label>
+					<input class="form-control"  type="text" name="cryptogram" id="cryptogram"/>
+                </div>
+                <div>
+                    <label for="mois">Date expiration  </label>
+					<input class="form-control"  type="number" min="1" max="12" name="mois" id="mois"/>
+					<input class="form-control"  type="number" min="2018"  name="annee" id="annee"/>                    
 				</div>
                 
-				<input class="btn btn-primary btn-lg btn-block" type="submit" id="refuser" name="refuser" value="annuler transaction"/>
+				<a class="btn btn-primary  btn-lg btn-block" id="condition-refuser" href="#">Annuler transaction</a>
 				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
 			</form>
     </script>
       
     <script type="plain/text" id="page-confirmation-achat">
      <h1>confirmation de l'achat </h1>
-			
+     <p>Achat Confirmer, merci de votre achat </p>
+     <a class="btn btn-primary  btn-lg btn-block" id="condition-refuser" href="#">Retourner a l'acceuil</a>
     </script>
     
      <script src="ProgressionAchatVue.js"></script>
@@ -114,7 +128,8 @@
      <script src="ProduitVue.js"></script>
      <script src="InformationVue.js"></script>
      <script src="ConditionVue.js"></script>
-     
+     <script src="PayerVue.js"></script>
+     <script src="ConfirmerVue.js"></script>     
      <script src="../modele/Categorie.js"></script>
      <script src="../modele/Produit.js"></script>
      <script src="../modele/Transaction.js"></script>

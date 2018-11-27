@@ -26,7 +26,7 @@ var ProgressionAchatVue = (function()
                  barreProgression.innerHTML="payer";
                 barreProgression.style.width="80%";
                 break;
-                case 4:
+                case 5:
                 barreProgression.innerHTML=" confirmation d'achat "; 
                 barreProgression.style.width="100%";
                 break;

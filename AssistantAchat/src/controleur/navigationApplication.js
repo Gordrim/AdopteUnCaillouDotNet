@@ -114,6 +114,39 @@
             var conditionVue = new ConditionVue(idTransaction,actionValiderCondition);
             conditionVue.afficher();
         }
+        else if( hash.match(/^#payer\/([0-9]+)/))
+        {
+            var navigation = hash.match(/^#payer\/([0-9]+)/);
+           
+            var idTransaction = navigation[1];
+           
+             var progression = new ProgressionAchatVue(4);
+            progression.afficher();
+            
+            var categorie1= new Categorie(1,"commun");
+            var categorie2= new Categorie(1,"original");
+            var listecategorie=[categorie1,categorie2];
+            var vueListeCategorie = new ListeCategorieVue(listecategorie);
+            vueListeCategorie.afficher();
+            
+            var payerVue = new PayerVue(idTransaction,actionValiderPayment);
+            payerVue.afficher();
+        }
+        else if( hash.match(/^#comfirmation/))
+        {
+            
+             var progression = new ProgressionAchatVue(5);
+            progression.afficher();
+            
+            var categorie1= new Categorie(1,"commun");
+            var categorie2= new Categorie(1,"original");
+            var listecategorie=[categorie1,categorie2];
+            var vueListeCategorie = new ListeCategorieVue(listecategorie);
+            vueListeCategorie.afficher();
+            
+            var confirmerVue = new ConfirmerVue();
+            confirmerVue.afficher();
+        }
     }
       var actionEnregistrerTransaction = function(transaction)
     {
@@ -125,6 +158,12 @@
        
          window.location.hash = "#payer/"+idTransaction;
     }
+      var actionValiderPayment = function(idTransaction)
+    {
+       
+         window.location.hash = "#comfirmation";
+    }
+
 
     initialiser();
 
