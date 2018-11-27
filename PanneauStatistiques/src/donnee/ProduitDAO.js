@@ -72,9 +72,9 @@ class ProduitDAO
     return produits;
   }
 
-  ajouterProduit(produit)
+  async ajouterProduit(produit)
   {
-
+    await this.bdd.insert(produit, produit.id);
   }
 
   modifierProduit(produit)
