@@ -1,41 +1,27 @@
 var ProduitDAO = require('../donnee/ProduitDAO_NoSQL');
 const Produit = require('../modele/Produit');
+var CategorieDAO = require('../donnee/CategorieDAO_NoSQL');
+const Categorie = require('../modele/Categorie');
 
 var produitDAO = new ProduitDAO();
+var categorieDAO = new CategorieDAO();
 
 init();
 
 async function afficherStatistiqueParProduit()
 {
-  document.querySelector('#nombre-produit').innerHTML = "test";
+}
 
-  await produitDAO.supprimerProduit(4);
-
-  await produitDAO.ajouterProduit(new Produit(4,'La mousseuse', 465, 'ne se boit pas', 3));
-
-  await produitDAO.modifierProduit(new Produit(4,'La mousseuse 2', 466, 'le retour', 3));
-
-  await produitDAO.supprimerProduit(1);
-
-  await produitDAO.getProduits().then((produits) =>
-  {
-    console.log(produits);
-  });
-  await produitDAO.getProduit(1).then((produit) =>
-  {
-    console.log(produit);
-  });
-
-  await produitDAO.getProduitParCategorie(2).then((produits) =>
-  {
-    console.log(produits);
-  });
-
-
+async function mettreAJourInformationsGlobales()
+{
+  document.querySelector('#nombre-produits').innerHTML = await produitDAO.getNombreProduits();
+  document.querySelector('#nombre-categories').innerHTML = await categorieDAO.getNombreCategories();
 }
 
 async function init()
 {
   await produitDAO.init();
+  await categorieDAO.init();
+  await mettreAJourInformationsGlobales();
   await afficherStatistiqueParProduit();
 }

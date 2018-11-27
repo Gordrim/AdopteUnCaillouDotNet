@@ -48,6 +48,12 @@ class CategorieDAO
     );
   }
 
+  async getNombreCategories()
+  {
+    var categories = await this.getCategories();
+    return categories.length;
+  }
+
   async ajouterCategorie(categorie)
   {
     await this.bdd.insert(categorie, String(categorie.id));

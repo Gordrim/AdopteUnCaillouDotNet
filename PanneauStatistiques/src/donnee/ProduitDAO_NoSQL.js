@@ -72,6 +72,12 @@ class ProduitDAO
     return produits;
   }
 
+  async getNombreProduits()
+  {
+    var produits = await this.getProduits();
+    return produits.length;
+  }
+
   async ajouterProduit(produit)
   {
     await this.bdd.insert(produit, String(produit.id));
