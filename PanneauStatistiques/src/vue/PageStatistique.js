@@ -1,4 +1,4 @@
-var ProduitDAO = require('../donnee/ProduitDAO');
+var ProduitDAO = require('../donnee/ProduitDAO_NoSQL');
 const Produit = require('../modele/Produit');
 
 var produitDAO = new ProduitDAO();
