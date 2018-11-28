@@ -24,7 +24,7 @@ constructor()
     var produits = [];
       var sql = "Select * from produit ";
     const resultat = await  this.basededonnees.query(sql); 
-       console.log(JSON.stringify(resultat.rows));
+     //  console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
     {
       var donneesTransaction = doc;
@@ -50,9 +50,9 @@ constructor()
     var sql = "Select * from transaction where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
-      console.log(sql)
+    //  console.log(sql)
     const resultat = await  this.basededonnees.query(sql); 
-    console.log(JSON.stringify(resultat.rows));
+   // console.log(JSON.stringify(resultat.rows));
     var donneesTransaction = resultat.rows[0];
     return new transaction
         (
@@ -72,7 +72,7 @@ constructor()
   {
     var sql = "INSERT INTO transaction( produit, adresse, pays, mail, nom, prenom, date) VALUES ({{produit}},'{{adresse}}','{{pays}}','{{mail}}','{{nom}}','{{prenom}}',now())";
 	sql = sql.replace("{{produit}}", transaction.produit).replace("{{adresse}}",transaction.adresse).replace("{{pays}}", transaction.pays).replace("{{mail}}", transaction.mail).replace("{{nom}}", transaction.nom).replace("{{prenom}}", transaction.prenom);
-	console.log(sql);
+	//console.log(sql);
    basededonnees.query(sql); 
   }
 
@@ -80,7 +80,7 @@ constructor()
   {
      var sql = "UPDATE transaction	SET  produit={{produit}}, adresse='{{adresse}}', pays='{{pays}}', mail='{{mail}}', nom='{{nom}}', prenom='{{prenom}}', date={{date}}' WHERE id= {{id}}";
 	sql = sql.replace("{{produit}}", transaction.produit).replace("{{adresse}}",transaction.adresse).replace("{{pays}}", transaction.pays).replace("{{mail}}", transaction.mail).replace("{{nom}}", transaction.nom).replace("{{prenom}}", transaction.prenom).replace("{{date}}", transaction.date);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
@@ -88,7 +88,7 @@ constructor()
   {
      var sql = "DELETE FROM transaction WHERE id= {{id}}";
 	sql = sql.replace("{{id}}",id);
-	console.log(sql);
+//	console.log(sql);
     basededonnees.query(sql); 
   }
 

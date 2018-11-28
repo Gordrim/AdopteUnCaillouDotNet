@@ -25,7 +25,7 @@ constructor()
     var categories = [];
       var sql = "Select * from categorie ";
     const resultat = await  this.basededonnees.query(sql); 
-       console.log(JSON.stringify(resultat.rows));
+       //console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
     {
       var donneesCategorie = doc;
@@ -43,9 +43,9 @@ constructor()
     var sql = "Select * from categorie where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
-      console.log(sql)
+    //  console.log(sql)
     const resultat = await  this.basededonnees.query(sql); 
-    console.log(JSON.stringify(resultat.rows));
+    //console.log(JSON.stringify(resultat.rows));
     var donneesCategorie = resultat.rows[0];
     return new Categorie
     (
@@ -56,17 +56,17 @@ constructor()
 
   async ajouterCategorie(categorie)
   {
-    var sql = "insert into categorie (nom) VALUES({{nom}})";
+    var sql = "insert into categorie (nom) VALUES('{{nom}}')";
 	sql = sql.replace("{{nom}}", categorie.nom);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
   async modifierCategorie(categorie)
   {
-     var sql = "update categorie set nom={{nom}} WHERE id= {{id}}";
+     var sql = "update categorie set nom='{{nom}}' WHERE id= {{id}}";
 	sql = sql.replace("{{nom}}", categorie.nom).replace("{{id}}", categorie.id);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
@@ -74,7 +74,7 @@ constructor()
   {
      var sql = "DELETE FROM categorie WHERE id= {{id}}";
 	sql = sql.replace("{{id}}",id);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 

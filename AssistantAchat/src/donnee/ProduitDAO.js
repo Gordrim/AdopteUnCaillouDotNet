@@ -24,7 +24,7 @@ constructor()
     var produits = [];
       var sql = "Select * from produit ";
     const resultat = await  this.basededonnees.query(sql); 
-       console.log(JSON.stringify(resultat.rows));
+      // console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
     {
       var donneesProduit = doc;
@@ -47,7 +47,7 @@ constructor()
     var sql = "Select * from produit where categorie ={{categorieId}}";
 	sql = sql.replace("{{categorieId}}",categorieId);
     const resultat = await  this.basededonnees.query(sql); 
-       console.log(JSON.stringify(resultat.rows));
+    //   console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
     {
       var donneesProduit = doc;
@@ -69,9 +69,9 @@ constructor()
     var sql = "Select * from produit where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
-      console.log(sql)
+     // console.log(sql)
     const resultat = await  this.basededonnees.query(sql); 
-    console.log(JSON.stringify(resultat.rows));
+    //console.log(JSON.stringify(resultat.rows));
     var donneesProduit = resultat.rows[0];
     return new Produit
         (
@@ -86,17 +86,17 @@ constructor()
 
   async ajouterProduit(produit)
   {
-    var sql = "insert into produit( nom, prix, description, categorie) VALUES ({{nom}},{{prix}},{{description}},{{categorie}})";
+    var sql = "insert into produit( nom, prix, description, categorie) VALUES ('{{nom}}',{{prix}},'{{description}}',{{categorie}})";
 	sql = sql.replace("{{nom}}", produit.nom).replace("{{prix}}", produit.prix).replace("{{description}}", produit.description).replace("{{categorie}}", produit.categorie);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
   async modifierProduit(categorie)
   {
-     var sql = "UPDATE produit SET nom={{nom}}, prix={{prix}}, description={{description}}, categorie={{categorie}} WHERE id= {{id}}";
+     var sql = "UPDATE produit SET nom='{{nom}}', prix={{prix}}, description='{{description}}', categorie={{categorie}} WHERE id= {{id}}";
 	sql = sql.replace("{{nom}}", produit.nom).replace("{{prix}}", produit.prix).replace("{{description}}", produit.description).replace("{{categorie}}", produit.categorie).replace("{{id}}", produit.id);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
@@ -104,7 +104,7 @@ constructor()
   {
      var sql = "DELETE FROM produit WHERE id= {{id}}";
 	sql = sql.replace("{{id}}",id);
-	console.log(sql);
+	//console.log(sql);
     basededonnees.query(sql); 
   }
 
