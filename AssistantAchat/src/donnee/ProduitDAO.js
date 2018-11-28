@@ -1,7 +1,7 @@
 var postgresql = require('pg');
 
 
-class CategorieDAO
+class ProduitDAO
 {
 
 
@@ -110,4 +110,4 @@ constructor()
 
 }
 
-module.exports = CategorieDAO;
+module.exports = ProduitDAO;

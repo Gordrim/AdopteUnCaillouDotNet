@@ -1,9 +1,11 @@
 const CategorieDao = require('../donnee/CategorieDao');
 const ProduitDao = require('../donnee/ProduitDao');
+const TransactionDao = require('../donnee/TransactionDao');
 (function()
 {
     var categorieDao= new CategorieDao();   
-    var produitDao= new ProduitDao();   
+    var produitDao= new ProduitDao();
+    var transactionDao = new TransactionDao();
     var instance = this;
 
     var initialiser = async function()
@@ -28,9 +30,6 @@ const ProduitDao = require('../donnee/ProduitDao');
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
-            
-            //var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
-            //var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",listecategorie[0]);
             var listeProduit=await produitDao.getProduits();
             var vueListeProduit = new ListeProduitVue(listeProduit);
             vueListeProduit.afficher();
@@ -90,22 +89,6 @@ const ProduitDao = require('../donnee/ProduitDao');
             var informationVue = new InformationVue(produit,actionEnregistrerTransaction);
             informationVue.afficher();
         }
-        else if( hash.match(/^#condition\/([0-9]+)/))
-        {
-            var navigation = hash.match(/^#condition\/([0-9]+)/);
-           
-            var idTransaction = navigation[1];
-           
-             var progression = new ProgressionAchatVue(3);
-            progression.afficher();
-            
-            var listecategorie = await categorieDao.getCategories();
-            var vueListeCategorie = new ListeCategorieVue(listecategorie);
-            vueListeCategorie.afficher();
-            
-            var conditionVue = new ConditionVue(idTransaction,actionValiderCondition);
-            conditionVue.afficher();
-        }
         else if( hash.match(/^#payer\/([0-9]+)/))
         {
             var navigation = hash.match(/^#payer\/([0-9]+)/);
@@ -136,20 +119,35 @@ const ProduitDao = require('../donnee/ProduitDao');
             confirmerVue.afficher();
         }
     }
-      var actionEnregistrerTransaction = function(transaction)
+      var actionEnregistrerTransaction = async function(transaction)
     {
-       
-         window.location.hash = "#condition/"+transaction.id;
+             var progression = new ProgressionAchatVue(3);
+            progression.afficher();
+            
+            var listecategorie = await categorieDao.getCategories();
+            var vueListeCategorie = new ListeCategorieVue(listecategorie);
+            vueListeCategorie.afficher();
+            
+            var conditionVue = new ConditionVue(transaction,actionValiderCondition);
+            conditionVue.afficher();
     }
-     var actionValiderCondition = function(idTransaction)
+     var actionValiderCondition =async function(transaction)
     {
-       
-         window.location.hash = "#payer/"+idTransaction;
+            var progression = new ProgressionAchatVue(4);
+            progression.afficher();
+            
+            var listecategorie = await categorieDao.getCategories();
+            var vueListeCategorie = new ListeCategorieVue(listecategorie);
+            vueListeCategorie.afficher();
+            
+            var payerVue = new PayerVue(transaction,actionValiderPayment);
+            payerVue.afficher();
+        
     }
-      var actionValiderPayment = function(idTransaction)
+      var actionValiderPayment = async function(transaction)
     {
-       
-         window.location.hash = "#comfirmation";
+        transactionDao.ajouterTransaction(transaction);
+        window.location.hash = "#comfirmation";
     }
     
       

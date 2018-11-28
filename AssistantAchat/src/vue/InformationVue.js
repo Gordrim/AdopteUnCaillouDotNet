@@ -22,9 +22,9 @@ var InformationVue = (function()
             var nom = document.getElementById("nom").value;
             var prenom = document.getElementById("prenom").value;
             var mail = document.getElementById("mail").value;
-            var adresse = document.getElementById("adresse").value + document.getElementById("cp").value + document.getElementById("ville").value ;
+            var adresse = document.getElementById("adresse").value +" "+ document.getElementById("cp").value +" "+ document.getElementById("ville").value ;
             var pays = document.getElementById("pays").value;
-            var transaction = new Transaction(1,produit,adresse,pays,mail, nom , prenom);
+            var transaction = new Transaction(1,produit.id,adresse,pays,mail, nom , prenom);
 
             actionEnregistrerTransaction(transaction);
         }

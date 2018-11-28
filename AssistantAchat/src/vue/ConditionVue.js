@@ -2,7 +2,7 @@ var ConditionVue = (function()
 {
     var pageCondition = document.getElementById("page-formulaire-acceptation-condition").innerHTML;
 
-    return function(idTransaction,actionValiderCondition)
+    return function(transaction,actionValiderCondition)
     {
         this.afficher = function()
         {
@@ -20,7 +20,7 @@ var ConditionVue = (function()
             evenement.preventDefault();
 
 
-            actionValiderCondition(idTransaction);
+            actionValiderCondition(transaction);
         }
 
     };
