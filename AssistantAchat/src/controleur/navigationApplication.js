@@ -1,12 +1,14 @@
 const CategorieDao = require('../donnee/CategorieDao');
+const ProduitDao = require('../donnee/ProduitDao');
 (function()
 {
     var categorieDao= new CategorieDao();   
+    var produitDao= new ProduitDao();   
     var instance = this;
 
     var initialiser = async function()
     {
-        
+        await produitDao.init();
         await categorieDao.init();
         window.addEventListener("hashchange",naviguer);
 
@@ -27,9 +29,9 @@ const CategorieDao = require('../donnee/CategorieDao');
             vueListeCategorie.afficher();
             
             
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
-            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",listecategorie[0]);
-            var listeProduit=[produit1,produit2];
+            //var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
+            //var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",listecategorie[0]);
+            var listeProduit=await produitDao.getProduits();
             var vueListeProduit = new ListeProduitVue(listeProduit);
             vueListeProduit.afficher();
         }
@@ -46,11 +48,8 @@ const CategorieDao = require('../donnee/CategorieDao');
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
-            var categorie = await categorieDao.getCategorie(idCategorie);
              
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie);
-            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",categorie);
-            var listeProduit=[produit1,produit2];
+            var listeProduit=await produitDao.getProduitsBycategorie(idCategorie);
             var vueListeProduit = new ListeProduitVue(listeProduit);
             vueListeProduit.afficher();
         }
@@ -68,8 +67,9 @@ const CategorieDao = require('../donnee/CategorieDao');
             vueListeCategorie.afficher();
             
             
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
-            var vueProduit = new ProduitVue(produit1);
+           
+             var produit= await produitDao.getProduit(idProduit);
+            var vueProduit = new ProduitVue(produit);
             vueProduit.afficher();
         }
         else if( hash.match(/^#information\/([0-9]+)/))
@@ -86,8 +86,8 @@ const CategorieDao = require('../donnee/CategorieDao');
             vueListeCategorie.afficher();
             
             
-           var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
-            var informationVue = new InformationVue(produit1,actionEnregistrerTransaction);
+            var produit= await produitDao.getProduit(idProduit);
+            var informationVue = new InformationVue(produit,actionEnregistrerTransaction);
             informationVue.afficher();
         }
         else if( hash.match(/^#condition\/([0-9]+)/))

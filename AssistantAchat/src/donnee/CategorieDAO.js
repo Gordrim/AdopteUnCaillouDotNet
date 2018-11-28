@@ -46,12 +46,12 @@ constructor()
       console.log(sql)
     const resultat = await  this.basededonnees.query(sql); 
     console.log(JSON.stringify(resultat.rows));
-    //var donneesCategorie = resultat.rows[0];
-    return /*new Categorie
+    var donneesCategorie = resultat.rows[0];
+    return new Categorie
     (
       donneesCategorie.id,
       donneesCategorie.nom
-    )*/ 1;
+    );
   }
 
   async ajouterCategorie(categorie)
@@ -64,7 +64,7 @@ constructor()
 
   async modifierCategorie(categorie)
   {
-     var sql = "update categorie nom={{nom}} WHERE id= {{id}}";
+     var sql = "update categorie set nom={{nom}} WHERE id= {{id}}";
 	sql = sql.replace("{{nom}}", categorie.nom).replace("{{id}}", categorie.id);
 	console.log(sql);
     basededonnees.query(sql); 

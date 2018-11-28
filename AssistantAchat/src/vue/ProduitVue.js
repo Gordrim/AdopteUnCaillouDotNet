@@ -11,7 +11,7 @@ var ProduitVue = (function()
              document.getElementById("produit-nom").innerHTML=produit.nom;
              document.getElementById("produit-prix").innerHTML=produit.prix;
              document.getElementById("produit-description").innerHTML=produit.description;
-             document.getElementById("retour-categorie").href="#categorie/"+produit.categorie.id;
+             document.getElementById("retour-categorie").href="#categorie/"+produit.categorie;
             document.getElementById("produit-acheter").href="#information/"+produit.id;
   
         }
