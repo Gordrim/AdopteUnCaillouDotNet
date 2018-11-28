@@ -1,18 +1,20 @@
+const CategorieDao = require('../donnee/CategorieDao');
 (function()
 {
+    var categorieDao= new CategorieDao();   
     var instance = this;
 
-    var initialiser = function()
+    var initialiser = async function()
     {
         
-
+        await categorieDao.init();
         window.addEventListener("hashchange",naviguer);
 
-        naviguer();
+        await naviguer();
 
     }
 
-    var naviguer = function()
+    var naviguer = async function()
     {
      var hash = window.location.hash;
 
@@ -20,16 +22,13 @@
         {
            var progression = new ProgressionAchatVue(1);
             progression.afficher();
-            
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
             
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie1);
-            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",categorie1);
+            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
+            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",listecategorie[0]);
             var listeProduit=[produit1,produit2];
             var vueListeProduit = new ListeProduitVue(listeProduit);
             vueListeProduit.afficher();
@@ -40,18 +39,17 @@
            
             var idCategorie = navigation[1];
            
-             var progression = new ProgressionAchatVue(1);
+            var progression = new ProgressionAchatVue(1);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
-            
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie1);
-            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",categorie1);
+            var categorie = await categorieDao.getCategorie(idCategorie);
+             
+            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie);
+            var produit2 = new Produit(2,"galet commun rugeut ",25," description galette commun rugeut ",categorie);
             var listeProduit=[produit1,produit2];
             var vueListeProduit = new ListeProduitVue(listeProduit);
             vueListeProduit.afficher();
@@ -65,14 +63,12 @@
              var progression = new ProgressionAchatVue(1);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
             
-            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie1);
+            var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
             var vueProduit = new ProduitVue(produit1);
             vueProduit.afficher();
         }
@@ -85,14 +81,12 @@
              var progression = new ProgressionAchatVue(2);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
             
-           var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",categorie1);
+           var produit1 = new Produit(1,"galet commun clasique",25,"description galette commun clasique",listecategorie[0]);
             var informationVue = new InformationVue(produit1,actionEnregistrerTransaction);
             informationVue.afficher();
         }
@@ -105,9 +99,7 @@
              var progression = new ProgressionAchatVue(3);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -123,9 +115,7 @@
              var progression = new ProgressionAchatVue(4);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+            var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -138,9 +128,7 @@
              var progression = new ProgressionAchatVue(5);
             progression.afficher();
             
-            var categorie1= new Categorie(1,"commun");
-            var categorie2= new Categorie(1,"original");
-            var listecategorie=[categorie1,categorie2];
+           var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -163,8 +151,8 @@
        
          window.location.hash = "#comfirmation";
     }
-
-
+    
+      
     initialiser();
 
 })();
