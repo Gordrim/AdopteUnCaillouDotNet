@@ -2,12 +2,70 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Gestionnaire du magasin</title>
+      <link rel="stylesheet" href="../css/bootstrap.min.css">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    Nous utilisons Node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    et Electron <script>document.write(process.versions.electron)</script>.
+      
+      <div id="liste-Categorie" class=" btn-group">    
+      </div>
+     
+      
+       <div id="zone-affichage">
+        </div>
+      
+      
+      <script type="plain/text" id="page-liste-produit">
+    	<div class="page-liste-produit">
+	    	<h1 id="categorie-liste">Liste des produit </h1>
+           
+	    	<ul id="liste-produit" class="list-group mb-3"></ul>
+    	</div>
+    </script>
+      
+    
+     <script type="plain/text" id="page-liste-Categorie">
+      </script>
+    <script type="plain/text" id="page-formulaire-ajout-produit">
+     <h1>Ajouter produit </h1>
+			<form id="formulaire-ajout">
+				
+				<div>
+					<label  for="nom">Nom</label>
+					<input class="form-control" type="text" name="nom" id="nom"/>
+				</div>
+				<div>
+					<label for="prenom">prix</label>
+					<input class="form-control"  type="number" min="0" name="prix" id="prix"/>
+				</div>
+				
+                <div>
+					<label for="description">Description</label>
+					<textarea class="form-control"   name="description" id="description"></textarea>
+				</div>
+                
+                <div>
+					<label for="categorie">Categorie </label>
+					<select class="form-control"name="categorie" id="categorie">
+                    </select>
+				</div>				
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
+			</form>
+    </script>
+      
+      
+      
+     
+      
+    
+      
+    
+     <script src="ListeCategorieVue.js"></script>
+     <script src="ListeproduitVue.js"></script>
+      
+     <script src="../modele/Categorie.js"></script>
+     <script src="../modele/Produit.js"></script>
+     <script src="../modele/Transaction.js"></script>
+    <script src="../controleur/navigationApplication.js"></script>
   </body>
 </html>
