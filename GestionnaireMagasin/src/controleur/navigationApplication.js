@@ -32,7 +32,7 @@ const TransactionDao = require('../donnee/TransactionDao');
             var idCategorie =-1;
             
             var listeProduit=await produitDao.getProduits();
-            var vueListeProduit = new ListeProduitVue(actionmodifierProduit,listecategorie,listeProduit, idCategorie );
+            var vueListeProduit = new ListeProduitVue(listecategorie,listeProduit,idCategorie);
             vueListeProduit.afficher();
         }
         else if( hash.match(/^#categorie\/([0-9]+)/))
@@ -48,19 +48,34 @@ const TransactionDao = require('../donnee/TransactionDao');
             
              
             var listeProduit=await produitDao.getProduitsBycategorie(idCategorie);
-            var vueListeProduit = new ListeProduitVue(actionmodifierProduit,listecategorie,listeProduit,idCategorie);
+            var vueListeProduit = new ListeProduitVue(listecategorie,listeProduit,idCategorie);
             vueListeProduit.afficher();
         }
-         else if( hash.match(/^#AjoutProduit/))
+         else if( hash.match(/^#ajoutProduit/))
         {
                     
             var listecategorie = await categorieDao.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
-            var produit= await produitDao.getProduit(0);
-            var vueAjouterProduit = new ProduitVue(produit);
-            vueAjouterProduit.afficher();
+            
+            var vueAjouterProduit = new AjouterProduitVue(actionEnregistrerProduit,listecategorie);
+           vueAjouterProduit.afficher();
+        }
+         else if( hash.match(/^#modifierProduit\/([0-9]+)/))
+        {
+           
+            var navigation = hash.match(/^#modifierProduit\/([0-9]+)/);
+           
+            var idProduit = navigation[1];
+             
+            var listecategorie = await categorieDao.getCategories();
+            var vueListeCategorie = new ListeCategorieVue(listecategorie);
+            vueListeCategorie.afficher();
+            
+            var produit= await produitDao.getProduit(idProduit);
+            var vueModifierProduit = new ModifierProduitVue(actionmodifierProduit,listecategorie,produit);
+            vueModifierProduit.afficher();
         }
     }
         
@@ -71,8 +86,8 @@ const TransactionDao = require('../donnee/TransactionDao');
     }
       var actionEnregistrerProduit = async function(produit)
     {
-              ProduitDao.ajouterProduit(transaction);
-        window.location.hash = "#categorie"+produit.categorie;
+              produitDao.ajouterProduit(produit);
+        window.location.hash = "#categorie/"+produit.categorie;
     }
     
       

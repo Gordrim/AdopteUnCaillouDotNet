@@ -20,6 +20,7 @@
 	    	<h1 id="categorie-liste">Liste des produit </h1>
            
 	    	<ul id="liste-produit" class="list-group mb-3"></ul>
+            <a class="btn btn-primary btn-lg" href="#ajoutProduit/">Ajouter Produit </a>
     	</div>
     </script>
       
@@ -52,6 +53,32 @@
 				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
 			</form>
     </script>
+    <script type="plain/text" id="page-formulaire-modifier-produit">
+     <h1>Ajouter produit </h1>
+			<form id="formulaire-modif-produit">
+				
+				<div>
+					<label  for="nom">Nom</label>
+					<input class="form-control" type="text" name="nom" id="nom"/>
+				</div>
+				<div>
+					<label for="prenom">prix</label>
+					<input class="form-control"  type="number" min="0" name="prix" id="prix"/>
+				</div>
+				
+                <div>
+					<label for="description">Description</label>
+					<textarea class="form-control"   name="description" id="description"></textarea>
+				</div>
+                
+                <div>
+					<label for="categorie">Categorie </label>
+					<select class="form-control"name="categorie" id="categorie">
+                    </select>
+				</div>				
+				<input class="btn btn-primary btn-lg btn-block" type="submit" id="valider" name="valider" value="valider"/>
+			</form>
+    </script>
       
       
       
@@ -61,7 +88,9 @@
       
     
      <script src="ListeCategorieVue.js"></script>
-     <script src="ListeproduitVue.js"></script>
+     <script src="ListeProduitVue.js"></script>
+     <script src="ModifierProduitVue.js"></script>
+     <script src="AjouterProduitVue.js"></script>
       
      <script src="../modele/Categorie.js"></script>
      <script src="../modele/Produit.js"></script>

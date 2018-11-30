@@ -88,7 +88,7 @@ constructor()
   {
     var sql = "insert into produit( nom, prix, description, categorie) VALUES ('{{nom}}',{{prix}},'{{description}}',{{categorie}})";
 	sql = sql.replace("{{nom}}", produit.nom).replace("{{prix}}", produit.prix).replace("{{description}}", produit.description).replace("{{categorie}}", produit.categorie);
-	//console.log(sql);
+	console.log(sql);
     await  this.basededonnees.query(sql); 
   }
 
