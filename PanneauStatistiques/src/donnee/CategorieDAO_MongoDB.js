@@ -21,20 +21,23 @@ class CategorieDAO
     this.collection = await Connexion.bdd.createCollection("Categorie").catch(() => {});
     if(this.collection)
     {
-        var categorie = new Categorie(1, "Caillou");
-        categorie._id = 1;
-        var test = await this.collection.insertOne(categorie);
-        var categorie = new Categorie(1, "Rock");
-        categorie._id = 2;
-        var test = await this.collection.insertOne(categorie);
-        var categorie = new Categorie(1, "Roche");
-        categorie._id = 3;
-        var test = await this.collection.insertOne(categorie);
+        var test = await this.collection.insertOne(new Categorie(1, "Caillou"));
+        var test = await this.collection.insertOne(new Categorie(2, "Rock"));
+        var test = await this.collection.insertOne(new Categorie(3, "Roche"));
     }
     else
     {
       this.bdd = await Connexion.bdd.collection("Categorie");
     }
+  }
+
+  creerCategorie(donneesCategorie)
+  {
+    return new Categorie
+    (
+        donneesCategorie._id,
+        donneesCategorie.nom
+    )
   }
 
   async getCategories()
@@ -43,26 +46,18 @@ class CategorieDAO
     var resultat = await this.collection.find({}).toArray();
     resultat.forEach((donneesCategorie) =>
     {
-      categories.push(new Categorie
-        (
-          donneesCategorie.id,
-          donneesCategorie.nom
-        ))
+      categories.push(this.creerCategorie(donneesCategorie));
     })
     return categories;
   }
 
-/*
-  async getCategorie(id)
-  {
-    var donneesCategorie = await this.bdd.get(String(id));
-    return new Categorie
-    (
-      donneesCategorie.id,
-      donneesCategorie.nom
-    );
-  }
 
+  async getCategorie(_id)
+  {
+    var donneesCategorie = await this.collection.findOne({_id: _id});
+    return this.creerCategorie(donneesCategorie);
+  }
+/*
   async getNombreCategories()
   {
     var categories = await this.getCategories();

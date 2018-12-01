@@ -1,6 +1,6 @@
-var Categorie = function(id,nom)
+var Categorie = function(_id,nom)
 {
-    this.id = id;
+    this._id = _id;
     this.nom = nom;
 }
 

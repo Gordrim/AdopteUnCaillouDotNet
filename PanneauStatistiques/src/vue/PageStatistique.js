@@ -8,6 +8,7 @@ var initialiser = async function()
 {
   await categorieDAO.initialiser();
   console.log(await categorieDAO.getCategories());
+  console.log(await categorieDAO.getCategorie(1));
 }
 
 initialiser();
