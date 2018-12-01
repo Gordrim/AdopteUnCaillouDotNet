@@ -9,6 +9,9 @@ var initialiser = async function()
   await categorieDAO.initialiser();
   console.log(await categorieDAO.getCategories());
   console.log(await categorieDAO.getCategorie(1));
+  var categorieDuTest = new Categorie(null, "test");
+  await categorieDAO.ajouterCategorie(categorieDuTest);
+  console.log(await categorieDAO.getCategorie(categorieDuTest._id));
 }
 
 initialiser();

@@ -55,7 +55,9 @@ class CategorieDAO
   async getCategorie(_id)
   {
     var donneesCategorie = await this.collection.findOne({_id: _id});
-    return this.creerCategorie(donneesCategorie);
+    if(donneesCategorie)
+      return this.creerCategorie(donneesCategorie);
+    return null;
   }
 /*
   async getNombreCategories()
@@ -63,12 +65,13 @@ class CategorieDAO
     var categories = await this.getCategories();
     return categories.length;
   }
-
+*/
   async ajouterCategorie(categorie)
   {
-    await this.bdd.insert(categorie, String(categorie.id));
+    var resultat = await this.collection.insertOne(categorie);
+    categorie._id = resultat.insertedId;
   }
-
+/*
   async modifierCategorie(categorie)
   {
     var donneesCategorie = await this.bdd.get(String(categorie.id));
