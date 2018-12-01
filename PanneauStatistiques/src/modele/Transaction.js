@@ -1,4 +1,4 @@
-var Transaction = function(id,produit,adresse,pays,mail, nom , prenom)
+var Transaction = function(id,produit,adresse,pays,mail, nom , prenom, date)
 {
     this.id = id;
     this.produit = produit;
@@ -7,6 +7,7 @@ var Transaction = function(id,produit,adresse,pays,mail, nom , prenom)
     this.mail = mail;
     this.nom= nom;
     this.prenom = prenom;
+    this.date = date;
 }
 
 module.exports = Transaction;
