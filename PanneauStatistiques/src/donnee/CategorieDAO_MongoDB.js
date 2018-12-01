@@ -41,17 +41,15 @@ class CategorieDAO
   {
     var categories = [];
     var resultat = await this.collection.find({}).toArray();
-    console.log(resultat);
-    /*resultat.rows.forEach((doc) =>
+    resultat.forEach((donneesCategorie) =>
     {
-      var donneesCategorie = doc.doc;
       categories.push(new Categorie
         (
           donneesCategorie.id,
           donneesCategorie.nom
         ))
     })
-    return categories;*/
+    return categories;
   }
 
 /*

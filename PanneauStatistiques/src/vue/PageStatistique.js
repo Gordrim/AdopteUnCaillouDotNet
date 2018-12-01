@@ -7,7 +7,7 @@ const Categorie = require('../modele/Categorie');
 var initialiser = async function()
 {
   await categorieDAO.initialiser();
-  await categorieDAO.getCategories();
+  console.log(await categorieDAO.getCategories());
 }
 
 initialiser();
