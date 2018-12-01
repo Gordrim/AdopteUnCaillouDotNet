@@ -17,6 +17,7 @@ var initialiser = async function()
   console.log(await categorieDAO.getCategorie(categorieDuTest._id));
   await categorieDAO.supprimerCategorie(categorieDuTest._id);
   console.log(await categorieDAO.getCategories());
+  console.log(await categorieDAO.getNombreCategories());
 }
 
 initialiser();

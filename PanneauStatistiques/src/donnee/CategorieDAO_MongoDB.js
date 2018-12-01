@@ -59,13 +59,12 @@ class CategorieDAO
       return this.creerCategorie(donneesCategorie);
     return null;
   }
-/*
+
   async getNombreCategories()
   {
-    var categories = await this.getCategories();
-    return categories.length;
+    return this.collection.countDocuments();
   }
-*/
+
   async ajouterCategorie(categorie)
   {
     var resultat = await this.collection.insertOne(categorie);
