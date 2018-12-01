@@ -1,6 +1,6 @@
-var Transaction = function(id,produit,adresse,pays,mail, nom , prenom, date)
+var Transaction = function(_id,produit,adresse,pays,mail, nom , prenom, date)
 {
-    this.id = id;
+    this._id = _id;
     this.produit = produit;
     this.adresse = adresse;
     this.pays = pays;

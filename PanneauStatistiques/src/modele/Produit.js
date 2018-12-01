@@ -1,7 +1,7 @@
 class Produit {
-  constructor(id, nom, prix, description, categorie)
+  constructor(_id, nom, prix, description, categorie)
   {
-    this.id = id;
+    this._id = _id;
     this.nom = nom;
     this.prix = prix;
     this.description = description;

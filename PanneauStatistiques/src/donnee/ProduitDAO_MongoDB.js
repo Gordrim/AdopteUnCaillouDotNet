@@ -1,102 +1,90 @@
-const nano = require('nano')('http://localhost:5984');
 const Produit = require('../modele/Produit');
+const Connexion = require('./Connexion_MongoDB');
 
 class ProduitDAO
 {
 
   constructor()
   {
-    this.bdd = null;
+    if(!ProduitDAO.instance)
+    {
+      this.collection = null;
+      ProduitDAO.instance = this;
+    }
+    return ProduitDAO.instance;
   }
 
-  async init()
+  async initialiser()
   {
-    var ok = await nano.db.create('adopte_un_caillou_dot_net_produit').catch((err) => {});
-    if(ok)
+    await Connexion.initialiser();
+    await Connexion.bdd.collection("Produit").drop();
+    this.collection = await Connexion.bdd.createCollection("Produit").catch(() => {});
+    if(this.collection)
     {
-        let bdd = nano.db.use('adopte_un_caillou_dot_net_produit');
-        await bdd.insert(new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1),'1');
-        await bdd.insert(new Produit(2, "le precieux", 9999, "attention aux hobbits", 1),'2');
-        await bdd.insert(new Produit(3, 'The Rock', 8888, 'The Rock', 2), '3');
+        var test = await this.collection.insertOne(new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1));
+        var test = await this.collection.insertOne(new Produit(2, "le precieux", 9999, "attention aux hobbits", 1));
+        var test = await this.collection.insertOne(new Produit(3, 'The Rock', 8888, 'The Rock', 2));
     }
-    this.bdd = nano.db.use('adopte_un_caillou_dot_net_produit');
+    else
+    {
+      this.bdd = await Connexion.bdd.collection("Produit");
+    }
+  }
+
+  creerProduit(donneesProduit)
+  {
+    return new Produit
+    (
+        donneesProduit._id,
+        donneesProduit.nom,
+        donneesProduit.prix,
+        donneesProduit.description,
+        donneesProduit.categorie
+    )
   }
 
   async getProduits()
   {
     var produits = [];
-    var resultat = await this.bdd.list({include_docs: true});
-    resultat.rows.forEach((doc) =>
+    var resultat = await this.collection.find({}).toArray();
+    resultat.forEach((donneesProduit) =>
     {
-      var donneesProduit = doc.doc;
-      produits.push(new Produit
-        (
-          donneesProduit.id,
-          donneesProduit.nom,
-          donneesProduit.prix,
-          donneesProduit.description,
-          donneesProduit.categorie
-        ))
+      produits.push(this.creerProduit(donneesProduit));
     })
     return produits;
   }
 
-  async getProduit(id)
-  {
-    var donneesProduit = await this.bdd.get(String(id));
-    return new Produit
-    (
-      donneesProduit.id,
-      donneesProduit.nom,
-      donneesProduit.prix,
-      donneesProduit.description,
-      donneesProduit.categorie
-    );
-  }
 
-  async getProduitParCategorie(categorie)
+  async getProduit(_id)
   {
-    var produits = [];
-    var resultat = await this.bdd.find({selector: {categorie: { "$eq": categorie}}});
-    resultat.docs.forEach((donneesProduit) =>
-    {
-      produits.push(new Produit
-        (
-          donneesProduit.id,
-          donneesProduit.nom,
-          donneesProduit.prix,
-          donneesProduit.description,
-          donneesProduit.categorie
-        ))
-    })
-    return produits;
+    var donneesProduit = await this.collection.findOne({_id: _id});
+    if(donneesProduit)
+      return this.creerProduit(donneesProduit);
+    return null;
   }
 
   async getNombreProduits()
   {
-    var produits = await this.getProduits();
-    return produits.length;
+    return this.collection.countDocuments();
   }
 
   async ajouterProduit(produit)
   {
-    await this.bdd.insert(produit, String(produit.id));
+    var resultat = await this.collection.insertOne(produit);
+    produit._id = resultat.insertedId;
   }
 
   async modifierProduit(produit)
   {
-    var donneesProduit = await this.bdd.get(String(produit.id));
-    produit._rev = donneesProduit._rev;
-    produit._id = String(produit.id);
-    await this.bdd.insert(produit);
+    await this.collection.updateOne({_id: produit._id}, {$set: produit});
   }
 
-  async supprimerProduit(id)
+  async supprimerProduit(_id)
   {
-    var donneesProduit = await this.bdd.get(String(id));
-    await this.bdd.destroy(String(id), donneesProduit._rev);
+    await this.collection.deleteOne({_id: _id});
   }
 
 }
 
-module.exports = ProduitDAO;
+const instance = new ProduitDAO();
+module.exports = instance;
