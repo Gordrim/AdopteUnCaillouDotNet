@@ -12,6 +12,11 @@ var initialiser = async function()
   var categorieDuTest = new Categorie(null, "test");
   await categorieDAO.ajouterCategorie(categorieDuTest);
   console.log(await categorieDAO.getCategorie(categorieDuTest._id));
+  categorieDuTest.nom = "test modifier";
+  await categorieDAO.modifierCategorie(categorieDuTest);
+  console.log(await categorieDAO.getCategorie(categorieDuTest._id));
+  await categorieDAO.supprimerCategorie(categorieDuTest._id);
+  console.log(await categorieDAO.getCategories());
 }
 
 initialiser();

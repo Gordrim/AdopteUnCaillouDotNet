@@ -71,20 +71,16 @@ class CategorieDAO
     var resultat = await this.collection.insertOne(categorie);
     categorie._id = resultat.insertedId;
   }
-/*
+
   async modifierCategorie(categorie)
   {
-    var donneesCategorie = await this.bdd.get(String(categorie.id));
-    categorie._rev = donneesCategorie._rev;
-    categorie._id = String(categorie.id);
-    await this.bdd.insert(categorie);
+    await this.collection.updateOne({_id: categorie._id}, {$set: categorie});
   }
 
-  async supprimerCategorie(id)
+  async supprimerCategorie(_id)
   {
-    var donneesCategorie = await this.bdd.get(String(id));
-    await this.bdd.destroy(String(id), donneesCategorie._rev);
-  }*/
+    await this.collection.deleteOne({_id: _id});
+  }
 
 }
 
