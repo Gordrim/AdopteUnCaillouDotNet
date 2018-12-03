@@ -21,9 +21,9 @@ class CategorieDAO
     this.collection = await Connexion.bdd.createCollection("Categorie").catch(() => {});
     if(this.collection)
     {
-        var test = await this.collection.insertOne(new Categorie(1, "Caillou"));
-        var test = await this.collection.insertOne(new Categorie(2, "Rock"));
-        var test = await this.collection.insertOne(new Categorie(3, "Roche"));
+        await this.collection.insertOne(new Categorie(1, "Caillou"));
+        await this.collection.insertOne(new Categorie(2, "Rock"));
+        await this.collection.insertOne(new Categorie(3, "Roche"));
     }
     else
     {

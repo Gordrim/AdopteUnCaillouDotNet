@@ -16,9 +16,12 @@ class Connexion
 
   async initialiser()
   {
-    var connexion = await MongoClient.connect(url, { useNewUrlParser: true });
-    this.bdd = await connexion.db('AdopteUnCaillouDotNet');
-    console.log("Database created!");
+    if(!this.bdd)
+    {
+      var connexion = await MongoClient.connect(url, { useNewUrlParser: true });
+      this.bdd = await connexion.db('AdopteUnCaillouDotNet');
+      console.log("Database created!");
+    }
   }
 }
 

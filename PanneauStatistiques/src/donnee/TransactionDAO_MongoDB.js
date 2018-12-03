@@ -21,7 +21,13 @@ class TransactionDAO
     this.collection = await Connexion.bdd.createCollection("Transaction").catch(() => {});
     if(this.collection)
     {
-      var test = await this.collection.insertOne(new Transaction(1, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé'));
+      await this.collection.insertOne(new Transaction(1, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
+      await this.collection.insertOne(new Transaction(2, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2017-08-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(3, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-09-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(4, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-10-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(5, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-10-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(6, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
+      await this.collection.insertOne(new Transaction(7, 3, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
     }
     else
     {
@@ -67,6 +73,87 @@ class TransactionDAO
   async getNombreTransactions()
   {
     return this.collection.countDocuments();
+  }
+
+  async getStatistiqueVenteProduitParMois(annee)
+  {
+    await console.log(await this.getTransactions());
+    var resultat = await this.collection.aggregate([
+      {
+        $match:
+        {
+          date:
+          {
+            $gte: new Date(annee+'-01-01T00:00:00.000Z'),
+            $lt: new Date(annee+1+'-01-01T00:00:00.000Z')
+          }
+        }
+      },
+      {
+        $lookup:
+        {
+          from: 'Produit',
+          localField: 'produit',
+          foreignField: '_id',
+          as: 'donneesProduit'
+
+        }
+      },
+      {
+        $unwind: "$donneesProduit"
+      },
+      {
+        $sort:
+        {
+          "donneesProduit.prix": -1
+        }
+      },
+      {
+        $lookup:
+        {
+          from: 'Categorie',
+          localField: 'donneesProduit.categorie',
+          foreignField: '_id',
+          as: 'donneesCategorie'
+
+        }
+      },
+      {
+        $unwind: "$donneesCategorie"
+      },
+      {
+        $group:
+        {
+          _id:
+          {
+            mois:
+            {
+              $month: "$date"
+            }
+          },
+          nombreVente:
+          {
+            $sum: 1
+          },
+          profitTotal:
+          {
+            $sum: "$donneesProduit.prix"
+          },
+          profitMoyenParVente:
+          {
+            $avg: "$donneesProduit.prix"
+          },
+          meilleurProduit:
+          {
+            $first: "$$ROOT.donneesProduit"
+          },
+          meilleurCategorie:
+          {
+            $first: "$$ROOT.donneesCategorie"
+          }
+        }
+      }]).toArray();
+    return resultat;
   }
 
   async ajouterTransaction(transaction)

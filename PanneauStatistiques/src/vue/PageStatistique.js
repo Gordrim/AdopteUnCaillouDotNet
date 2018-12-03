@@ -3,10 +3,18 @@ const Connexion = require('../donnee/Connexion_MongoDB');
 var categorieDAO = require('../donnee/CategorieDAO_MongoDB');
 const Categorie = require('../modele/Categorie');
 
+var transactionDAO = require('../donnee/TransactionDAO_MongoDB');
+const Transaction = require('../modele/Transaction');
+
+var produitDAO = require('../donnee/ProduitDAO_MongoDB');
+const Produit = require('../modele/Produit');
+
 
 var initialiser = async function()
 {
   await categorieDAO.initialiser();
+  await transactionDAO.initialiser();
+  await produitDAO.initialiser();
   console.log(await categorieDAO.getCategories());
   console.log(await categorieDAO.getCategorie(1));
   var categorieDuTest = new Categorie(null, "test");
@@ -18,6 +26,7 @@ var initialiser = async function()
   await categorieDAO.supprimerCategorie(categorieDuTest._id);
   console.log(await categorieDAO.getCategories());
   console.log(await categorieDAO.getNombreCategories());
+  console.log(await transactionDAO.getStatistiqueVenteProduitParMois(2018));
 }
 
 initialiser();
