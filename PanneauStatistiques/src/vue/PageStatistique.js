@@ -9,50 +9,47 @@ const Transaction = require('../modele/Transaction');
 var produitDAO = require('../donnee/ProduitDAO_MongoDB');
 const Produit = require('../modele/Produit');
 
+listeMois =
+[
+  "Janvier",
+  "Fevrier",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Aout",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Decembre"
+]
 
-var initialiser = async function()
-{
-  await categorieDAO.initialiser();
-  await transactionDAO.initialiser();
-  await produitDAO.initialiser();
-  console.log(await categorieDAO.getCategories());
-  console.log(await categorieDAO.getCategorie(1));
-  var categorieDuTest = new Categorie(null, "test");
-  await categorieDAO.ajouterCategorie(categorieDuTest);
-  console.log(await categorieDAO.getCategorie(categorieDuTest._id));
-  categorieDuTest.nom = "test modifier";
-  await categorieDAO.modifierCategorie(categorieDuTest);
-  console.log(await categorieDAO.getCategorie(categorieDuTest._id));
-  await categorieDAO.supprimerCategorie(categorieDuTest._id);
-  console.log(await categorieDAO.getCategories());
-  console.log(await categorieDAO.getNombreCategories());
-  console.log(await transactionDAO.getStatistiqueVenteParMois(2018));
-  console.log(await transactionDAO.getStatistiqueVenteParProduits(2018));
-  console.log(await transactionDAO.getStatistiqueVenteParCategories(2018));
-  console.log(await transactionDAO.getStatistiqueVenteParRegion(2018));
-}
 
-initialiser();
-/*var ProduitDAO = require('../donnee/ProduitDAO_NoSQL');
-const Produit = require('../modele/Produit');
-var CategorieDAO = require('../donnee/CategorieDAO_NoSQL');
-const Categorie = require('../modele/Categorie');
-var TransactionDAO = require('../donnee/TransactionDAO_NoSQL');
-const Transaction = require('../modele/Transaction');
-
-var produitDAO = new ProduitDAO();
-var categorieDAO = new CategorieDAO();
-var transactionDAO = new TransactionDAO();
-
-init();
-
-async function afficherStatistiqueParProduit()
+async function afficherStatistiqueParMois()
 {
   var tableauStatistique = document.querySelector('#tableau-statistiques')
-  var produits = produitDAO.getProduits();
-  produits.forEach((produit) =>
+  var statistiquesMois = await transactionDAO.getStatistiqueVenteParMois((new Date()).getFullYear());
+  tableauStatistique.innerHTML +=
+  "<tr>"+
+    "<th>mois</th>"+
+    "<th>nombre ventes</th>"+
+    "<th>profit total</th>"+
+    "<th>profit moyen</th>"+
+    "<th>meilleur produit</th>"+
+    "<th>meilleure categorie</th>"+
+  "</tr>";
+  statistiquesMois.forEach((statistiqueMois) =>
   {
-    tableauStatistique.innerHTML += "<tr><td>"+"</td></tr>";
+    tableauStatistique.innerHTML +=
+    "<tr>"+
+      "<td>"+listeMois[statistiqueMois._id.mois-1]+"</td>"+
+      "<td>"+statistiqueMois.nombreVente+"</td>"+
+      "<td>"+statistiqueMois.profitTotal+"</td>"+
+      "<td>"+statistiqueMois.profitMoyenParVente+"</td>"+
+      "<td>"+statistiqueMois.meilleurProduit.nom+"</td>"+
+      "<td>"+statistiqueMois.meilleurCategorie.nom+"</td>"+
+    "</tr>";
   })
 }
 
@@ -63,11 +60,13 @@ async function mettreAJourInformationsGlobales()
   transactionDAO.getTransactionsParProduit(1);
 }
 
-async function init()
+var initialiser = async function()
 {
-  await produitDAO.init();
-  await categorieDAO.init();
-  await transactionDAO.init();
-  await mettreAJourInformationsGlobales();
-  //await afficherStatistiqueParProduit();
-}*/
+  await categorieDAO.initialiser();
+  await transactionDAO.initialiser();
+  await produitDAO.initialiser();
+  mettreAJourInformationsGlobales();
+  afficherStatistiqueParMois();
+}
+
+initialiser();

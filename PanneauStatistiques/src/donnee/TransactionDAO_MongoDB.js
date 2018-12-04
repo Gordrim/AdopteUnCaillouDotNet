@@ -152,8 +152,7 @@ class TransactionDAO
       }
     },
     { $unwind: '$produit' },
-    { $sort: { 'produit.profitTotal': -1 }
-    },
+    { $sort: { 'produit.profitTotal': -1 } },
     {
       $group:
       {
@@ -164,7 +163,8 @@ class TransactionDAO
         meilleurCategorie: { $first: '$$ROOT.meilleurCategorie' },
         meilleurProduit: { $first: '$$ROOT.produit'}
       }
-    }
+    },
+    { $sort: { '_id.mois': 1 } }
     ]).toArray();
     return resultat;
   }
