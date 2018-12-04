@@ -79,9 +79,8 @@ class TransactionDAO
     return this.collection.countDocuments();
   }
 
-  async getStatistiqueVenteProduitParMois(annee)
+  async getStatistiqueVenteParMois(annee)
   {
-    await console.log(await this.getTransactions());
     var resultat = await this.collection.aggregate([
     {
       $match:
@@ -172,7 +171,6 @@ class TransactionDAO
 
   async getStatistiqueVenteParProduits(annee)
   {
-    await console.log(await this.getTransactions());
     var resultat = await this.collection.aggregate([
       {
         $match:
@@ -233,7 +231,6 @@ class TransactionDAO
 
   async getStatistiqueVenteParCategories(annee)
   {
-    await console.log(await this.getTransactions());
     var resultat = await this.collection.aggregate([
     {
       $match:
@@ -315,6 +312,96 @@ class TransactionDAO
         profitTotal: { $first: '$$ROOT.profitTotal' },
         profitMoyenParVente: { $first: '$$ROOT.profitMoyenParVente' },
         meilleurMois: { $first: '$$ROOT.meilleurMois' },
+        meilleurProduit: { $first: '$$ROOT.produit'}
+      }
+    }
+    ]).toArray();
+    return resultat;
+  }
+
+  async getStatistiqueVenteParRegion(annee)
+  {
+    var resultat = await this.collection.aggregate([
+    {
+      $match:
+      {
+        date:
+        {
+          $gte: new Date(annee+'-01-01T00:00:00.000Z'),
+          $lt: new Date(annee+1+'-01-01T00:00:00.000Z')
+        }
+      }
+    },
+    {
+      $lookup:
+      {
+        from: 'Produit', localField: 'produit',
+        foreignField: '_id', as: 'donneesProduit'
+      }
+    },
+    { $unwind: '$donneesProduit' },
+    {
+      $lookup:
+      {
+      from: 'Categorie', localField: 'donneesProduit.categorie',
+      foreignField: '_id', as: 'donneesCategorie'
+      }
+    },
+    { $unwind: '$donneesCategorie' },
+    {
+      $group:
+      {
+        _id:
+        {
+          pays: '$pays',
+          categorie: '$donneesCategorie',
+          produit: '$donneesProduit'
+        },
+        nombreVente: { $sum: 1 },
+        profitTotal: { $sum: '$donneesProduit.prix' },
+        profitMoyenParVente: { $avg: '$donneesProduit.prix' }
+      }
+    },
+    { $sort : { 'profitTotal': -1 } },
+    {
+      $group:
+      {
+        _id:
+        {
+          pays: '$_id.pays',
+          categorie: '$_id.categorie',
+        },
+        nombreVente: { $sum: '$nombreVente' },
+        profitTotal: { $sum: '$profitTotal' },
+        profitMoyenParVente: { $avg: '$profitMoyenParVente' },
+        meilleurProduit: { $first: '$$ROOT._id.produit' },
+        meilleurProfitProduit: { $first: '$$ROOT.profitTotal' }
+      }
+    },
+    { $sort: { 'profitTotal': -1 } },
+    { $addFields: { 'meilleurProduit.profitTotal': '$meilleurProfitProduit' } },
+    {
+      $group:
+      {
+        _id: { pays: '$_id.pays' },
+        nombreVente: { $sum: '$nombreVente' },
+        profitTotal: { $sum: '$profitTotal' },
+        profitMoyenParVente: { $avg: '$profitMoyenParVente' },
+        meilleurCategorie: { $first: '$$ROOT._id.categorie' },
+        produit: { $push: '$meilleurProduit' }
+      }
+    },
+    { $unwind: '$produit' },
+    { $sort: { 'produit.profitTotal': -1 }
+    },
+    {
+      $group:
+      {
+        _id: { pays: '$_id.pays' },
+        nombreVente: { $first: '$$ROOT.nombreVente' },
+        profitTotal: { $first: '$$ROOT.profitTotal' },
+        profitMoyenParVente: { $first: '$$ROOT.profitMoyenParVente' },
+        meilleurCategorie: { $first: '$$ROOT.meilleurCategorie' },
         meilleurProduit: { $first: '$$ROOT.produit'}
       }
     }

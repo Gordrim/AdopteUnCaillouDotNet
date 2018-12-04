@@ -26,9 +26,10 @@ var initialiser = async function()
   await categorieDAO.supprimerCategorie(categorieDuTest._id);
   console.log(await categorieDAO.getCategories());
   console.log(await categorieDAO.getNombreCategories());
-  console.log(await transactionDAO.getStatistiqueVenteProduitParMois(2018));
+  console.log(await transactionDAO.getStatistiqueVenteParMois(2018));
   console.log(await transactionDAO.getStatistiqueVenteParProduits(2018));
   console.log(await transactionDAO.getStatistiqueVenteParCategories(2018));
+  console.log(await transactionDAO.getStatistiqueVenteParRegion(2018));
 }
 
 initialiser();
