@@ -25,9 +25,13 @@ class TransactionDAO
       await this.collection.insertOne(new Transaction(2, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2017-08-01T00:00:00.000Z')));
       await this.collection.insertOne(new Transaction(3, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-09-01T00:00:00.000Z')));
       await this.collection.insertOne(new Transaction(4, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-10-01T00:00:00.000Z')));
-      await this.collection.insertOne(new Transaction(5, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-10-01T00:00:00.000Z')));
-      await this.collection.insertOne(new Transaction(6, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
-      await this.collection.insertOne(new Transaction(7, 3, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
+      await this.collection.insertOne(new Transaction(5, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-02-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(6, 1, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-02-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(7, 3, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-02-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(8, 3, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-02-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(9, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date('2018-10-01T00:00:00.000Z')));
+      await this.collection.insertOne(new Transaction(10, 2, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
+      await this.collection.insertOne(new Transaction(11, 3, 'paumé', 'pauméland', '404@404.404', 'lepetit', 'paumé', new Date()));
     }
     else
     {
@@ -79,6 +83,97 @@ class TransactionDAO
   {
     await console.log(await this.getTransactions());
     var resultat = await this.collection.aggregate([
+    {
+      $match:
+      {
+        date:
+        {
+          $gte: new Date(annee+'-01-01T00:00:00.000Z'),
+          $lt: new Date(annee+1+'-01-01T00:00:00.000Z')
+        }
+      }
+    },
+    {
+      $lookup:
+      {
+        from: 'Produit', localField: 'produit',
+        foreignField: '_id', as: 'donneesProduit'
+      }
+    },
+    { $unwind: '$donneesProduit' },
+    {
+      $lookup:
+      {
+      from: 'Categorie', localField: 'donneesProduit.categorie',
+      foreignField: '_id', as: 'donneesCategorie'
+      }
+    },
+    { $unwind: '$donneesCategorie' },
+    {
+      $group:
+      {
+        _id:
+        {
+          mois: { $month: '$date' },
+          produit: '$donneesProduit',
+          categorie: '$donneesCategorie'
+        },
+        nombreVente: { $sum: 1 },
+        profitTotal: { $sum: '$donneesProduit.prix' },
+        profitMoyenParVente: { $avg: '$donneesProduit.prix' }
+      }
+    },
+    { $sort : { 'profitTotal': -1 } },
+    {
+      $group:
+      {
+        _id:
+        {
+          'mois': '$_id.mois',
+          'categorie': '$_id.categorie'
+        },
+        nombreVente: { $sum: '$nombreVente' },
+        profitTotal: { $sum: '$profitTotal' },
+        profitMoyenParVente: { $avg: '$profitMoyenParVente' },
+        meilleurProduit: { $first: '$$ROOT._id.produit' },
+        meilleurProfitProduit: { $first: '$$ROOT.profitTotal' }
+      }
+    },
+    { $sort: { 'profitTotal': -1 } },
+    { $addFields: { 'meilleurProduit.profitTotal': '$meilleurProfitProduit' } },
+    {
+      $group:
+      {
+        _id: { mois: '$_id.mois' },
+        nombreVente: { $sum: '$nombreVente' },
+        profitTotal: { $sum: '$profitTotal' },
+        profitMoyenParVente: { $avg: '$profitMoyenParVente' },
+        meilleurCategorie: { $first: '$$ROOT._id.categorie' },
+        produit: { $push: '$meilleurProduit' }
+      }
+    },
+    { $unwind: '$produit' },
+    { $sort: { 'produit.profitTotal': -1 }
+    },
+    {
+      $group:
+      {
+        _id: { mois: '$_id.mois' },
+        nombreVente: { $sum: '$nombreVente' },
+        profitTotal: { $sum: '$profitTotal' },
+        profitMoyenParVente: { $avg: '$profitMoyenParVente' },
+        meilleurCategorie: { $first: '$$ROOT.meilleurCategorie' },
+        meilleurProduit: { $first: '$$ROOT.produit'}
+      }
+    }
+    ]).toArray();
+    return resultat;
+  }
+
+  async getStatistiqueVenteParProduits(annee)
+  {
+    await console.log(await this.getTransactions());
+    var resultat = await this.collection.aggregate([
       {
         $match:
         {
@@ -92,67 +187,47 @@ class TransactionDAO
       {
         $lookup:
         {
-          from: 'Produit',
-          localField: 'produit',
-          foreignField: '_id',
-          as: 'donneesProduit'
-
+          from: 'Produit', localField: 'produit',
+          foreignField: '_id', as: 'donneesProduit'
         }
       },
-      {
-        $unwind: "$donneesProduit"
-      },
-      {
-        $sort:
-        {
-          "donneesProduit.prix": -1
-        }
-      },
-      {
-        $lookup:
-        {
-          from: 'Categorie',
-          localField: 'donneesProduit.categorie',
-          foreignField: '_id',
-          as: 'donneesCategorie'
-
-        }
-      },
-      {
-        $unwind: "$donneesCategorie"
-      },
+      { $unwind: "$donneesProduit" },
       {
         $group:
         {
           _id:
           {
-            mois:
-            {
-              $month: "$date"
-            }
+            produit: "$donneesProduit",
+            mois: { $month: '$date' }
           },
-          nombreVente:
-          {
-            $sum: 1
-          },
-          profitTotal:
-          {
-            $sum: "$donneesProduit.prix"
-          },
-          profitMoyenParVente:
-          {
-            $avg: "$donneesProduit.prix"
-          },
-          meilleurProduit:
-          {
-            $first: "$$ROOT.donneesProduit"
-          },
-          meilleurCategorie:
-          {
-            $first: "$$ROOT.donneesCategorie"
-          }
+          nombreVente: { $sum: 1 },
+          profitTotal: { $sum: "$donneesProduit.prix" },
+          profitMoyenParVente: { $avg: "$donneesProduit.prix" }
         }
-      }]).toArray();
+      },
+      { $sort: {'profitTotal' : -1}},
+      {
+        $group:
+        {
+          _id:
+          {
+            produit: "$_id.produit"
+          },
+          nombreVente: { $sum: "$nombreVente" },
+          profitTotal: { $sum: "$profitTotal" },
+          profitMoyenParVente: { $avg: "profitMoyenParVente" },
+          meilleurMois : {$first : "$$ROOT._id.mois"}
+        }
+      },
+      {
+        $lookup:
+        {
+          from: 'Categorie', localField: '_id.produit.categorie',
+          foreignField: '_id', as: 'categorie'
+        }
+      },
+      { $unwind: "$categorie" }
+      ]).toArray();
     return resultat;
   }
 

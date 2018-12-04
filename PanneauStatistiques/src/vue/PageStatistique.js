@@ -27,6 +27,7 @@ var initialiser = async function()
   console.log(await categorieDAO.getCategories());
   console.log(await categorieDAO.getNombreCategories());
   console.log(await transactionDAO.getStatistiqueVenteProduitParMois(2018));
+  console.log(await transactionDAO.getStatistiqueVenteParProduits(2018));
 }
 
 initialiser();

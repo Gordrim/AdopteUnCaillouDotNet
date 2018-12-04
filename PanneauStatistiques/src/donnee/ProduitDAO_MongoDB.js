@@ -21,9 +21,10 @@ class ProduitDAO
     this.collection = await Connexion.bdd.createCollection("Produit").catch(() => {});
     if(this.collection)
     {
-        await this.collection.insertOne(new Produit(1, "l'infernal", 666, "tout droit venu des enfer", 1));
+        await this.collection.insertOne(new Produit(1, "l'infernal", 8888, "tout droit venu des enfer", 1));
         await this.collection.insertOne(new Produit(2, "le precieux", 9999, "attention aux hobbits", 1));
         await this.collection.insertOne(new Produit(3, 'The Rock', 8888, 'The Rock', 2));
+        await this.collection.insertOne(new Produit(4, 'La Mousseuse', 100, 'Ne se boit pas', 3));
     }
     else
     {
