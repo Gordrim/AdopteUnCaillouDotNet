@@ -47,7 +47,7 @@ async function afficherStatistiqueParMois()
   {
     tableauStatistique.innerHTML +=
     "<tr>"+
-      "<td>"+listeMois[statistiqueMois._id.mois-1]+"</td>"+
+      "<td>"+listeMois[statistiqueMois.mois-1]+"</td>"+
       "<td>"+statistiqueMois.nombreVente+"</td>"+
       "<td>"+statistiqueMois.profitTotal+"</td>"+
       "<td>"+statistiqueMois.profitMoyenParVente+"</td>"+
@@ -74,7 +74,7 @@ async function afficherStatistiqueParProduits()
   {
     tableauStatistique.innerHTML +=
     "<tr>"+
-      "<td>"+statistiquesProduit._id.produit.nom+"</td>"+
+      "<td>"+statistiquesProduit.produit.nom+"</td>"+
       "<td>"+statistiquesProduit.nombreVente+"</td>"+
       "<td>"+statistiquesProduit.profitTotal+"</td>"+
       "<td>"+statistiquesProduit.profitMoyenParVente+"</td>"+
@@ -101,7 +101,7 @@ async function afficherStatistiqueParCategories()
   {
     tableauStatistique.innerHTML +=
     "<tr>"+
-      "<td>"+statistiqueCategorie._id.categorie.nom+"</td>"+
+      "<td>"+statistiqueCategorie.categorie.nom+"</td>"+
       "<td>"+statistiqueCategorie.nombreVente+"</td>"+
       "<td>"+statistiqueCategorie.profitTotal+"</td>"+
       "<td>"+statistiqueCategorie.profitMoyenParVente+"</td>"+
@@ -128,7 +128,7 @@ async function afficherStatistiqueParRegions()
   {
     tableauStatistique.innerHTML +=
     "<tr>"+
-      "<td>"+statistiqueRegion._id.pays+"</td>"+
+      "<td>"+statistiqueRegion.pays+"</td>"+
       "<td>"+statistiqueRegion.nombreVente+"</td>"+
       "<td>"+statistiqueRegion.profitTotal+"</td>"+
       "<td>"+statistiqueRegion.profitMoyenParVente+"</td>"+
