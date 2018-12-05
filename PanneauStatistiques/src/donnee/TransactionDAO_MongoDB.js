@@ -319,7 +319,7 @@ class TransactionDAO
     return resultat;
   }
 
-  async getStatistiqueVenteParRegion(annee)
+  async getStatistiqueVenteParRegions(annee)
   {
     var resultat = await this.collection.aggregate([
     {
@@ -407,6 +407,38 @@ class TransactionDAO
     }
     ]).toArray();
     return resultat;
+  }
+
+  async getProfitTotal(annee)
+  {
+    var resultat = await this.collection.aggregate([
+    {
+      $match:
+      {
+        date:
+        {
+          $gte: new Date(annee+'-01-01T00:00:00.000Z'),
+          $lt: new Date(annee+1+'-01-01T00:00:00.000Z')
+        }
+      }
+    },
+    {
+      $lookup:
+      {
+        from: 'Produit', localField: 'produit',
+        foreignField: '_id', as: 'donneesProduit'
+      }
+    },
+    { $unwind: '$donneesProduit' },
+    {
+      $group:
+      {
+        _id: null,
+        profitTotal: { $sum: '$donneesProduit.prix' },
+      }
+    }
+    ]).toArray();
+    return resultat[0].profitTotal;
   }
 
   async ajouterTransaction(transaction)
