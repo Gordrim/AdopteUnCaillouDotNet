@@ -61,7 +61,6 @@ async function afficherStatistiqueParProduits()
 {
   var tableauStatistique = document.querySelector('#tableau-statistiques')
   var statistiquesProduits = await transactionDAO.getStatistiqueVenteParProduits((new Date()).getFullYear());
-  console.log(statistiquesProduits)
   tableauStatistique.innerHTML =
   "<tr>"+
     "<th>Produits</th>"+

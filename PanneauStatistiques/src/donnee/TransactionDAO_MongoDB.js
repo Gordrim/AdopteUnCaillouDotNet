@@ -213,7 +213,7 @@ class TransactionDAO
           },
           nombreVente: { $sum: "$nombreVente" },
           profitTotal: { $sum: "$profitTotal" },
-          profitMoyenParVente: { $avg: "profitMoyenParVente" },
+          profitMoyenParVente: { $avg: "$profitMoyenParVente" },
           meilleurMois : {$first : "$$ROOT._id.mois"}
         }
       },
