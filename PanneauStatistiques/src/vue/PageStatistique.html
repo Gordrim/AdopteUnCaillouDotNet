@@ -3,25 +3,28 @@
   <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css"
-    <title>Statistiques</title>
   </head>
-  <body>
-    <h1>Statistiques</h1>
-    <p><span id="nombre-produits">42</span> produits</p>
-    <p><span id="nombre-categories">42</span> catégories</p>
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button id="bouton-statistique-par-mois" type="button" class="btn btn-dark">Mois</button>
-      <button id="bouton-statistique-par-produits" type="button" class="btn btn-dark">Produits</button>
-      <button id="bouton-statistique-par-categories" type="button" class="btn btn-dark">Catégories</button>
-      <button id="bouton-statistique-par-regions" type="button" class="btn btn-dark">Régions</button>
+  <body class="text-light bg-dark">
+    <div class="container">
+      <h1>Statistiques</h1>
+      <p><span id="nombre-produits">42</span> produits</p>
+      <p><span id="nombre-categories">42</span> catégories</p>
     </div>
-
-    <aside>
-      <p id="profit-total">42</p>
+    <aside class="container">
+      <p><span id="profit-total">00.00</span>€</p>
     </aside>
 
-    <table id="tableau-statistiques" class="table table-striped">
-    </table>
+    <div class="container">
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button id="bouton-statistique-par-mois" type="button" class="btn btn-dark">Mois</button>
+        <button id="bouton-statistique-par-produits" type="button" class="btn btn-dark">Produits</button>
+        <button id="bouton-statistique-par-categories" type="button" class="btn btn-dark">Catégories</button>
+        <button id="bouton-statistique-par-regions" type="button" class="btn btn-dark">Régions</button>
+      </div>
+
+      <table id="tableau-statistiques" class="table table-striped">
+      </table>
+    </div>
 
     <script src="PageStatistique.js"></script>
   </body>
