@@ -166,6 +166,7 @@ class TransactionDAO
     },
     { $sort: { '_id.mois': 1 } }
     ]).toArray();
+    resultat.forEach((stat) => {stat.mois = stat._id.mois});
     return resultat;
   }
 
@@ -226,6 +227,7 @@ class TransactionDAO
       },
       { $unwind: "$categorie" }
       ]).toArray();
+    resultat.forEach((stat) => {stat.produit = stat._id.produit});
     return resultat;
   }
 
@@ -316,6 +318,7 @@ class TransactionDAO
       }
     }
     ]).toArray();
+    resultat.forEach((stat) => {stat.categorie = stat._id.categorie});
     return resultat;
   }
 
@@ -406,6 +409,7 @@ class TransactionDAO
       }
     }
     ]).toArray();
+    resultat.forEach((stat) => {stat.pays = stat._id.pays});
     return resultat;
   }
 
