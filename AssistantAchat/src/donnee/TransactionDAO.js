@@ -19,16 +19,16 @@ constructor()
     await this.basededonnees.connect();
   }
 
-  async getProduits()
+  async getTransaction()
   {
-    var produits = [];
-      var sql = "Select * from produit ";
+    var transactions = [];
+      var sql = "Select produit, adresse, pays, mail, nom, prenom, date from transaction ";
     const resultat = await  this.basededonnees.query(sql); 
      //  console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
     {
       var donneesTransaction = doc;
-      produits.push(new transaction
+      transactions.push(new transaction
         (
          donneesTransaction.id,
           donneesTransaction.produit,
@@ -41,13 +41,13 @@ constructor()
           
         ))
     })
-    return produits;
+    return transactions;
   }
 
 
-  async getProduit(id)
+  async getTransaction(id)
   {
-    var sql = "Select * from transaction where id ={{id}}";
+    var sql = "Select produit, adresse, pays, mail, nom, prenom, date from transaction where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
     //  console.log(sql)
@@ -93,5 +93,60 @@ constructor()
   }
 
 }
+
+/*
+async getStatistiqueVenteParMois(annee)
+  { 
+        var statistiques = [];
+       var sql = "Select EXTRACT(MONTH FROM transaction.date) as mois, Count(transaction.id) as nombreVente, sum(produit.prix) as profitTotal ,avg(produit.prix) as profitMoyenParVente   from transaction INNER JOIN  produit ON transaction.produit = produit.id where EXTRACT(YEAR FROM transaction.date) =  {{annee}} group by mois ";
+      sql = sql.replace("{{annee}}",annee);
+      
+      const resultat = await  this.basededonnees.query(sql); 
+      resultat.rows.forEach((doc) =>
+    {
+          //Todo a finir requette 
+         var sqlproduit = "Select id,nom,prix,description,categorie from produit where id =  (Select idproduit from  (select produit.id as idproduit , sum(produit.prix) as benefice from transaction  INNER JOIN  produit ON transaction.produit = produit.id where EXTRACT(YEAR FROM transaction.date) = {{annee}} and EXTRACT(MONTH FROM transaction.date) = {{mois}} group by produit.id ORDER BY benefice DESC) as rechercheBenefice limit 1)";
+          sqlproduit = sqlproduit.replace("{{annee}}",annee).replace("{{mois}}",doc.mois);
+      
+    
+    const resultatproduit = await  this.basededonnees.query(sqlproduit); 
+   
+    var donneesProduit = resultatproduit.rows[0];
+    var produit = new Produit(
+          donneesProduit.id,
+          donneesProduit.nom,
+          donneesProduit.prix,
+          donneesProduit.description,
+          donneesProduit.categorie
+    ); 
+    
+    var sqlCategorie = "Select id, nom from categorie where id =  (Select idcategorie from  (select produit.categorie as idcategorie , sum(produit.prix) as benefice from transaction  INNER JOIN  produit ON transaction.produit = produit.id where EXTRACT(YEAR FROM transaction.date) = {{annee}} and EXTRACT(MONTH FROM transaction.date) = {{mois}} group by produit.id, produit.categorie ORDER BY benefice DESC) as rechercheBenefice limit 1)";
+          sqlproduit = sqlproduit.replace("{{annee}}",annee).replace("{{mois}}",doc.mois);
+      
+     
+    const resultatCategorie = await  this.basededonnees.query(sqlCategorie); 
+   
+    var donneesCategorie = resultatCategorie.rows[0];
+    var categorie =  new Categorie
+    (
+      donneesCategorie.id,
+      donneesCategorie.nom
+    );
+    
+      var donneesStatistique = doc;
+      statistiques.push(
+        {
+         var mois = donneesStatistique.mois,
+         var nombreVente = donneesStatistique.nombreVente,
+         var profitTotal = donneesStatistique.profitTotal,
+         var profitMoyenParVente = donneesStatistique.profitMoyenParVente,
+         var meilleurProduit = produit,
+         var meilleurCategorie = categorie
+        })
+    })
+    return statistiques;
+    
+  }
+  */
 
 module.exports = TransactionDAO;

@@ -22,7 +22,7 @@ constructor()
   async getProduits()
   {
     var produits = [];
-      var sql = "Select * from produit ";
+      var sql = "Select id,nom,prix,description,categorie from produit ";
     const resultat = await  this.basededonnees.query(sql); 
       // console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
@@ -44,7 +44,7 @@ constructor()
     async getProduitsBycategorie(categorieId)
   {
     var produits = [];
-    var sql = "Select * from produit where categorie ={{categorieId}}";
+    var sql = "Select id,nom,prix,description,categorie from produit where categorie ={{categorieId}}";
 	sql = sql.replace("{{categorieId}}",categorieId);
     const resultat = await  this.basededonnees.query(sql); 
     //   console.log(JSON.stringify(resultat.rows));
@@ -66,7 +66,7 @@ constructor()
 
   async getProduit(id)
   {
-    var sql = "Select * from produit where id ={{id}}";
+    var sql = "Select id,nom,prix,description,categorie from produit where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
      // console.log(sql)

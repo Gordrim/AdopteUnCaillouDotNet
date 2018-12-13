@@ -23,7 +23,7 @@ constructor()
   async getCategories()
   {
     var categories = [];
-      var sql = "Select * from categorie ";
+      var sql = "Select id, nom from categorie ";
     const resultat = await  this.basededonnees.query(sql); 
        //console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
@@ -40,7 +40,7 @@ constructor()
 
   async getCategorie(id)
   {
-    var sql = "Select * from categorie where id ={{id}}";
+    var sql = "Select id, nom from categorie where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
     //  console.log(sql)

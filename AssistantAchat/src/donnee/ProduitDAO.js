@@ -22,7 +22,7 @@ constructor()
   async getProduits()
   {
     var produits = [];
-      var sql = "Select * from produit ";
+      var sql = "Select id,nom,prix,description,categorie from produit ";
     const resultat = await  this.basededonnees.query(sql); 
       // console.log(JSON.stringify(resultat.rows));
     resultat.rows.forEach((doc) =>
@@ -44,7 +44,7 @@ constructor()
     async getProduitsBycategorie(categorieId)
   {
     var produits = [];
-    var sql = "Select * from produit where categorie ={{categorieId}}";
+    var sql = "Select id,nom,prix,description,categorie from produit where categorie ={{categorieId}}";
 	sql = sql.replace("{{categorieId}}",categorieId);
     const resultat = await  this.basededonnees.query(sql); 
     //   console.log(JSON.stringify(resultat.rows));
@@ -66,7 +66,7 @@ constructor()
 
   async getProduit(id)
   {
-    var sql = "Select * from produit where id ={{id}}";
+    var sql = "Select id,nom,prix,description,categorie from produit where id ={{id}}";
 	sql = sql.replace("{{id}}",id);
       
      // console.log(sql)
@@ -88,16 +88,16 @@ constructor()
   {
     var sql = "insert into produit( nom, prix, description, categorie) VALUES ('{{nom}}',{{prix}},'{{description}}',{{categorie}})";
 	sql = sql.replace("{{nom}}", produit.nom).replace("{{prix}}", produit.prix).replace("{{description}}", produit.description).replace("{{categorie}}", produit.categorie);
-	//console.log(sql);
-    basededonnees.query(sql); 
+	console.log(sql);
+    await  this.basededonnees.query(sql); 
   }
 
-  async modifierProduit(categorie)
+  async modifierProduit(produit)
   {
      var sql = "UPDATE produit SET nom='{{nom}}', prix={{prix}}, description='{{description}}', categorie={{categorie}} WHERE id= {{id}}";
 	sql = sql.replace("{{nom}}", produit.nom).replace("{{prix}}", produit.prix).replace("{{description}}", produit.description).replace("{{categorie}}", produit.categorie).replace("{{id}}", produit.id);
-	//console.log(sql);
-    basededonnees.query(sql); 
+	console.log(sql);
+     await  this.basededonnees.query(sql); 
   }
 
   async supprimerProduit(id)
@@ -105,7 +105,7 @@ constructor()
      var sql = "DELETE FROM produit WHERE id= {{id}}";
 	sql = sql.replace("{{id}}",id);
 	//console.log(sql);
-    basededonnees.query(sql); 
+   await  this.basededonnees.query(sql); 
   }
 
 }
