@@ -1,17 +1,20 @@
 const CategorieDao = require('../donnee/CategorieDao');
 const ProduitDao = require('../donnee/ProduitDao');
 const TransactionDao = require('../donnee/TransactionDao');
+const Redis = require('../donnee/redis');
 (function()
 {
     var categorieDao= new CategorieDao();   
     var produitDao= new ProduitDao();
     var transactionDao = new TransactionDao();
+    var redis = new Redis();
     var instance = this;
 
     var initialiser = async function()
     {
         await produitDao.init();
         await categorieDao.init();
+        await redis.init();
         window.addEventListener("hashchange",naviguer);
 
         await naviguer();
@@ -26,7 +29,7 @@ const TransactionDao = require('../donnee/TransactionDao');
         {
            var progression = new ProgressionAchatVue(1);
             progression.afficher();
-            var listecategorie = await categorieDao.getCategories();
+            var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -43,7 +46,7 @@ const TransactionDao = require('../donnee/TransactionDao');
             var progression = new ProgressionAchatVue(1);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -61,7 +64,7 @@ const TransactionDao = require('../donnee/TransactionDao');
              var progression = new ProgressionAchatVue(1);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -80,7 +83,7 @@ const TransactionDao = require('../donnee/TransactionDao');
              var progression = new ProgressionAchatVue(2);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -98,7 +101,7 @@ const TransactionDao = require('../donnee/TransactionDao');
              var progression = new ProgressionAchatVue(4);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -111,7 +114,7 @@ const TransactionDao = require('../donnee/TransactionDao');
              var progression = new ProgressionAchatVue(5);
             progression.afficher();
             
-           var listecategorie = await categorieDao.getCategories();
+            var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -124,7 +127,7 @@ const TransactionDao = require('../donnee/TransactionDao');
              var progression = new ProgressionAchatVue(3);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
@@ -136,7 +139,7 @@ const TransactionDao = require('../donnee/TransactionDao');
             var progression = new ProgressionAchatVue(4);
             progression.afficher();
             
-            var listecategorie = await categorieDao.getCategories();
+             var listecategorie = await redis.getCategories();
             var vueListeCategorie = new ListeCategorieVue(listecategorie);
             vueListeCategorie.afficher();
             
